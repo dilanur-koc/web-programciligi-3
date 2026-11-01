@@ -78,6 +78,32 @@ function clearReport(){
   $("resultText").textContent="Üç karakteri seçtiğinizde takım değerlendirmesi burada görünecek.";
   $("resultTags").replaceChildren();
 }
+// Eğlence amaçlı ve açık kurallı skor; gerçek kazanma olasılığı DEĞİLDİR.
+function evaluateTeam(){
+  const chosen=selection.map(id=>BRAWLERS.find(b=>b.id===id)).filter(Boolean);
+  if(chosen.length!==3){
+    $("scoreValue").textContent="—";
+    $("resultText").textContent="Önce üç oyuncunun da karakterini seçmelisin.";
+    $("resultTags").replaceChildren();return;
+  }
+  const roles=new Set(chosen.map(b=>b.role));
+  const ranges=new Set(chosen.map(b=>b.range));
+  const rules=[
+    {label:`${roles.size} farklı rol`,points:roles.size*9},
+    {label:`${ranges.size} farklı menzil`,points:ranges.size*7},
+    {label:"Üç farklı karakter",points:16}
+  ];
+  if(modeSelect.value==="knockout" && chosen.some(b=>b.range==="Uzun")) rules.push({label:"Knockout için uzun menzil",points:10});
+  if(modeSelect.value==="ball" && chosen.some(b=>b.role==="Tank")) rules.push({label:"Brawl Ball için tank rolü",points:10});
+  if(modeSelect.value==="gem" && chosen.some(b=>["Destek","Kontrol"].includes(b.role))) rules.push({label:"Gem Grab için destek/kontrol",points:10});
+  if(modeSelect.value==="heist" && chosen.some(b=>b.role==="Hasar")) rules.push({label:"Heist için hasar rolü",points:10});
+  const score=Math.min(100,17+rules.reduce((sum,r)=>sum+r.points,0));
+  $("scoreValue").textContent=`${score}/100`;
+  $("resultText").textContent=`${mapSelect.value} haritasında ${chosen.map(b=>b.name).join(", ")} ile oluşturulan takımın örnek kurallara göre değerlendirmesi. Bu sonuç oyundaki gerçek kazanma ihtimalini göstermez.`;
+  const tags=$("resultTags");tags.replaceChildren();
+  rules.forEach(rule=>{const tag=document.createElement("span");tag.className="tag";tag.textContent=`+${rule.points} • ${rule.label}`;tags.append(tag);});
+}
+$("analyzeButton").addEventListener("click",evaluateTeam);
 modeSelect.addEventListener("change",()=>{updateMaps();clearReport();});
 mapSelect.addEventListener("change",clearReport);
 searchInput.addEventListener("input",renderBrawlers);
