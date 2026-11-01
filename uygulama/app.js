@@ -48,7 +48,7 @@ function renderTeam(){
     cell.append(badge,title,info);
     if(current){
       const remove=document.createElement("button");remove.type="button";remove.className="remove";remove.textContent="Seçimi kaldır";remove.setAttribute("aria-label",`Oyuncu ${index+1}: ${current.name} seçimini kaldır`);
-      remove.addEventListener("click",()=>{selection[index]=null;renderTeam();renderBrawlers();clearReport();});cell.append(remove);
+      remove.addEventListener("click",()=>{selection[index]=null;renderTeam();renderBrawlers();clearReport();savePlan();});cell.append(remove);
     }
     container.append(cell);
   });
@@ -69,9 +69,31 @@ function renderBrawlers(){
     button.append(avatar,title,subtitle);
     button.addEventListener("click",()=>{
       const next=selection.indexOf(null);if(next<0||selection.includes(b.id))return;
-      selection[next]=b.id;renderTeam();renderBrawlers();clearReport();
+      selection[next]=b.id;renderTeam();renderBrawlers();clearReport();savePlan();
     });grid.append(button);
   });
+}
+const STORE_KEY="brawltrio.v1";
+function savePlan(){
+  try{localStorage.setItem(STORE_KEY,JSON.stringify({selection,mode:modeSelect.value,map:mapSelect.value}));}
+  catch(error){console.warn("Tarayıcı depolama kullanılamıyor",error);}
+}
+function restorePlan(){
+  try{
+    const data=JSON.parse(localStorage.getItem(STORE_KEY)||"null");
+    if(!data)return;
+    if(MAPS[data.mode])modeSelect.value=data.mode;
+    updateMaps();
+    if(MAPS[modeSelect.value].includes(data.map))mapSelect.value=data.map;
+    if(Array.isArray(data.selection)&&data.selection.length===3){
+      const valid=new Set();
+      data.selection.forEach((id,i)=>{
+        if(typeof id==="string"&&BRAWLERS.some(b=>b.id===id)&&!valid.has(id)){
+          selection[i]=id;valid.add(id);
+        }
+      });
+    }
+  }catch(error){console.warn("Kayıt okunamadı",error);}
 }
 function clearReport(){
   $("scoreValue").textContent="—";
@@ -104,8 +126,8 @@ function evaluateTeam(){
   rules.forEach(rule=>{const tag=document.createElement("span");tag.className="tag";tag.textContent=`+${rule.points} • ${rule.label}`;tags.append(tag);});
 }
 $("analyzeButton").addEventListener("click",evaluateTeam);
-modeSelect.addEventListener("change",()=>{updateMaps();clearReport();});
-mapSelect.addEventListener("change",clearReport);
+modeSelect.addEventListener("change",()=>{updateMaps();clearReport();savePlan();});
+mapSelect.addEventListener("change",()=>{clearReport();savePlan();});
 searchInput.addEventListener("input",renderBrawlers);
-$("resetButton").addEventListener("click",()=>{selection.fill(null);renderTeam();renderBrawlers();clearReport();});
-updateMaps();renderTeam();renderBrawlers();
+$("resetButton").addEventListener("click",()=>{selection.fill(null);renderTeam();renderBrawlers();clearReport();savePlan();});
+restorePlan();updateMaps();renderTeam();renderBrawlers();
