@@ -1,0 +1,7 @@
+:root {color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:#0c1020;color:#f7f9ff}
+* {box-sizing:border-box} body{margin:0} a{color:inherit} .topbar{height:74px;max-width:1180px;margin:auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between}
+.logo{text-decoration:none;font-weight:900;letter-spacing:1px;font-size:1.23rem}.logo span:last-child{color:#ffd55f}.logo-mark{color:#ff67b3;margin-right:7px}.top-note{font-size:.82rem;color:#9aa5c6}
+.page{max-width:1180px;margin:auto;padding:0 22px 65px}.hero{padding:35px 0 36px;max-width:740px}.hero .kicker{font-size:.73rem;letter-spacing:2px;font-weight:800;color:#9c9fff}
+h1{font-size:clamp(2.65rem,6vw,5.2rem);line-height:1.03;letter-spacing:-2px;margin:13px 0 17px}h1 em{font-style:normal;color:#ffd55f}.hero p{color:#adb7d1;font-size:1.03rem;max-width:590px;line-height:1.7}
+.panel{background:#181e35;border:1px solid #333b5c;border-radius:19px;padding:22px}.heading-panel h2{margin:0;font-size:1.2rem}.heading-panel p{margin:5px 0 0;color:#aeb8d4}
+footer{color:#8590b0;text-align:center;padding:25px 18px 40px;font-size:.77rem;line-height:1.7}footer a{color:#c5d0ff}
