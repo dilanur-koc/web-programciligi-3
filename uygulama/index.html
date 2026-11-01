@@ -17,10 +17,41 @@
     <section class="hero">
       <div class="kicker">3 OYUNCU • TEK TAKIM • STRATEJİ</div>
       <h1>Ekibini kur.<br><em>Birlikte düşün.</em></h1>
-      <p>Bir oyun modu seçin, üç takım arkadaşınızın karakterlerini planlayın ve takımınızın güçlü yanlarını keşfedin.</p>
+      <p>Üç kişilik ekibini oluştur, oyun moduna uygun karakterleri değerlendir. Buradaki analiz yalnızca örnek kurallara dayanır.</p>
+      <div class="hero-chips"><span>✦ Üç kişilik planlama</span><span>◈ Takım dengesi</span><span>★ Tamamen ücretsiz</span></div>
     </section>
+
     <section class="workspace" aria-label="Takım planlama alanı">
-      <div class="panel heading-panel"><h2>Takım planlayıcı</h2><p>İlk hafta: tarayıcıda çalışan örnek sürüm</p></div>
+      <div class="panel setup-panel">
+        <div class="section-heading"><div><span class="eyebrow">01 / OYUN AYARLARI</span><h2>Maç senaryosu</h2></div><span class="pill">DEMO</span></div>
+        <div class="field-grid">
+          <label>Oyun modu<select id="modeSelect"><option value="gem">Gem Grab</option><option value="ball">Brawl Ball</option><option value="knockout">Knockout</option><option value="heist">Heist</option></select></label>
+          <label>Harita<select id="mapSelect"><option>Hard Rock Mine</option><option>Crystal Arcade</option></select></label>
+        </div>
+        <p class="hint">Haritalar ve karakterler ilk hafta için örnek veridir. Canlı API bağlantısı sonraki haftanın konusu olacaktır.</p>
+      </div>
+
+      <div class="panel team-panel">
+        <div class="section-heading"><div><span class="eyebrow">02 / EKİBİNİZ</span><h2>Üç kişilik takım</h2></div><span id="teamCount" class="count">0 / 3 seçildi</span></div>
+        <div id="teamSlots" class="slots">
+          <div class="slot"><div class="slot-badge">1</div><strong>Oyuncu 1</strong><small>Karakter bekleniyor</small></div>
+          <div class="slot"><div class="slot-badge">2</div><strong>Oyuncu 2</strong><small>Karakter bekleniyor</small></div>
+          <div class="slot"><div class="slot-badge">3</div><strong>Oyuncu 3</strong><small>Karakter bekleniyor</small></div>
+        </div>
+        <p id="turnHint" class="turn-hint">İlk seçim: Oyuncu 1</p>
+      </div>
+
+      <div class="panel roster-panel">
+        <div class="section-heading"><div><span class="eyebrow">03 / KARAKTER HAVUZU</span><h2>Karakter seçimi</h2></div><label class="search-label"><span>Karakter ara</span><input id="searchInput" type="search" placeholder="İsim veya rol…" aria-label="Karakter ara" /></label></div>
+        <div id="brawlerGrid" class="brawler-grid"><p class="hint">Karakterler yükleniyor…</p></div>
+      </div>
+
+      <div class="panel result-panel">
+        <div class="section-heading"><div><span class="eyebrow">04 / DEĞERLENDİRME</span><h2>Takım raporu</h2></div><span class="score" id="scoreValue">—</span></div>
+        <p id="resultText" class="hint">Üç karakteri seçtiğinizde takım değerlendirmesi burada görünecek.</p>
+        <div id="resultTags" class="tags" aria-live="polite"></div>
+        <div class="actions"><button class="action-primary" type="button" id="analyzeButton">Takımı değerlendir</button><button class="action-secondary" type="button" id="resetButton">Seçimleri sıfırla</button></div>
+      </div>
     </section>
   </main>
   <footer>Bu ürün resmî değildir ve Supercell tarafından onaylanmamıştır. <a href="https://supercell.com/en/fan-content-policy/tr/" target="_blank" rel="noopener noreferrer">Fan Content Policy</a></footer>
